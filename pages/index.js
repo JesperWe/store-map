@@ -54,7 +54,7 @@ export default function Home() {
 			height: 280,
 			width: 200,
 			opacity: 0.5,
-			fill: '#bbbbbb'
+			fill: '#333333'
 		} )
 		const text = new fabric.Text( 'Department ?', {
 			fontSize: 30,
@@ -75,9 +75,15 @@ export default function Home() {
 		canvas = new fabric.Canvas( 'canvas', {
 			height: 800,
 			width: 1200,
-			backgroundColor: '#eeeeee'
+			backgroundColor: '#eeeeee',
 		} )
 
+		fabric.Image.fromURL( "/map.png", img => {
+			canvas.setBackgroundImage( img, canvas.renderAll.bind( canvas ), {
+				scaleX: canvas.width / img.width,
+				scaleY: canvas.height / img.height
+			} )
+		} )
 		canvas.on( 'mouse:dblclick', e => {
 			set_target( e.target )
 			set_isOpen( true )
