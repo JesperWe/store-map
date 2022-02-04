@@ -20,27 +20,27 @@ const departments = [
 	{
 		key: 'fotball',
 		name: 'Fotball',
-		color: '#e87832'
+		color: '#ff6400'
 	},
 	{
 		key: 'bikes',
 		name: 'Bikes',
-		color: '#e8c432'
+		color: '#ffca00'
 	},
 	{
 		key: 'weapons',
 		name: 'Weapons',
-		color: '#c7e832'
+		color: '#cbfa00'
 	},
 	{
 		key: 'pickup',
 		name: 'Pickup@Store',
-		color: '#32e88d'
+		color: '#02fa7d'
 	},
 	{
 		key: 'cust-serv',
 		name: 'Customer Service',
-		color: '#32c7e8'
+		color: '#02c6fa'
 	},
 ]
 
