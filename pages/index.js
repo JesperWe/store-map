@@ -11,7 +11,8 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalOverlay,
-	Select
+	Select,
+	HStack
 } from "@chakra-ui/react"
 
 let canvas
@@ -47,16 +48,19 @@ const departments = [
 export default function Home() {
 
 	const [ target, set_target ] = useState()
+	const [ category, set_category ] = useState()
 	const [ isOpen, set_isOpen ] = useState( false )
 
 	const addRect = c => {
+		const dept = departments.find( d => d.key === category )
+
 		const rect = new fabric.Rect( {
 			height: 280,
 			width: 200,
 			opacity: 0.5,
-			fill: '#333333'
+			fill: dept.color
 		} )
-		const text = new fabric.Text( 'Department ?', {
+		const text = new fabric.Text( dept.name, {
 			fontSize: 30,
 			originX: 'center',
 			originY: 'center',
@@ -78,7 +82,7 @@ export default function Home() {
 			backgroundColor: '#eeeeee',
 		} )
 
-		fabric.Image.fromURL( "/map.png", img => {
+		fabric.Image.fromURL( "/kungenskurva.png", img => {
 			canvas.setBackgroundImage( img, canvas.renderAll.bind( canvas ), {
 				scaleX: canvas.width / img.width,
 				scaleY: canvas.height / img.height
@@ -109,7 +113,17 @@ export default function Home() {
 			</Head>
 
 			<main className={ styles.main }>
-				<Button onClick={ () => addRect( canvas ) }>Add Area</Button>
+				<HStack>
+					<Select
+						placeholder="Select department"
+						onChange={ e => set_category(e.target.value) }
+					>
+						{ departments.map( d => ( <option key={ d.key } value={ d.key }>{ d.name }</option> ) ) }
+					</Select>
+
+					<Button onClick={ () => addRect( canvas ) }>Add Area</Button>
+
+				</HStack>
 				<canvas style={ { marginTop: 12 } } id="canvas"/>
 			</main>
 
