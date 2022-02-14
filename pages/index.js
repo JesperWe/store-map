@@ -13,9 +13,7 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalOverlay,
-	Select,
-	VStack,
-	Stack
+	Select
 } from "@chakra-ui/react"
 
 let canvas
@@ -76,15 +74,22 @@ export default function Home() {
 		} )
 		c.add( group )
 		c.renderAll()
+		console.log( c.toJSON() )
 	}
 
 	useEffect( () => {
 		const el = document.getElementById( "canvas-wrap" )
+
 		canvas = new fabric.Canvas( 'canvas', {
 			backgroundColor: '#ffffff',
 			width: el.offsetWidth,
 			height: el.offsetHeight
 		} )
+
+		const saved = localStorage.getItem( 'store-map' )
+		if( saved ) {
+			canvas.loadFromJSON( saved )
+		}
 
 		fabric.Image.fromURL( "/kungenskurva.png", img => {
 			canvas.setBackgroundImage( img, canvas.renderAll.bind( canvas ), {
@@ -121,8 +126,8 @@ export default function Home() {
 			</Head>
 
 			<Flex align="center">
-				<div style={{marginTop: 20, marginBottom: 10}}>
-					<HStack width={400} style={{margin: '0 auto'}}>
+				<div style={ { marginTop: 20, marginBottom: 10 } }>
+					<HStack width={ 400 } style={ { margin: '0 auto' } }>
 						<Select
 							placeholder="Select department"
 							onChange={ e => set_category( e.target.value ) }
@@ -130,8 +135,15 @@ export default function Home() {
 							{ departments.map( d => ( <option key={ d.key } value={ d.key }>{ d.name }</option> ) ) }
 						</Select>
 
-						<Button onClick={ () => addRect( canvas ) } disabled={!category}>
+						<Button onClick={ () => addRect( canvas ) } disabled={ !category }>
 							Add Area
+						</Button>
+						<Button
+							onClick={ () => {
+								localStorage.setItem( 'store-map', JSON.stringify( canvas ) )
+							} }
+						>
+							Save
 						</Button>
 					</HStack>
 					<div id="canvas-wrap" style={ { width: "100vw", height: "calc( 100vh - 70px )" } }>
