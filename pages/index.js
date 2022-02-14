@@ -85,7 +85,7 @@ export default function Home() {
 		fabric.Image.fromURL( "/kungenskurva.png", img => {
 			canvas.setBackgroundImage( img, canvas.renderAll.bind( canvas ), {
 				scaleX: canvas.width / img.width,
-				scaleY: canvas.height / img.height
+				scaleY: canvas.width / img.width
 			} )
 		} )
 		canvas.on( 'mouse:dblclick', e => {
