@@ -4,6 +4,8 @@ import styles from '../styles/Home.module.css'
 import { fabric } from 'fabric'
 import {
 	Button,
+	Flex,
+	HStack,
 	Modal,
 	ModalBody,
 	ModalCloseButton,
@@ -12,7 +14,8 @@ import {
 	ModalHeader,
 	ModalOverlay,
 	Select,
-	HStack
+	VStack,
+	Stack
 } from "@chakra-ui/react"
 
 let canvas
@@ -76,16 +79,21 @@ export default function Home() {
 	}
 
 	useEffect( () => {
+		const el = document.getElementById( "canvas-wrap" )
 		canvas = new fabric.Canvas( 'canvas', {
-			height: 800,
-			width: 1200,
-			backgroundColor: '#eeeeee',
+			backgroundColor: '#ffffff',
+			width: el.offsetWidth,
+			height: el.offsetHeight
 		} )
 
 		fabric.Image.fromURL( "/kungenskurva.png", img => {
 			canvas.setBackgroundImage( img, canvas.renderAll.bind( canvas ), {
-				scaleX: canvas.width / img.width,
-				scaleY: canvas.width / img.width
+				scaleX: canvas.height / img.height,
+				scaleY: canvas.height / img.height,
+				originX: 'center',
+				originY: 'center',
+				top: canvas.height / 2,
+				left: canvas.width / 2
 			} )
 		} )
 		canvas.on( 'mouse:dblclick', e => {
@@ -112,20 +120,25 @@ export default function Home() {
 				<link rel="icon" href="/favicon.ico"/>
 			</Head>
 
-			<main className={ styles.main }>
-				<HStack>
-					<Select
-						placeholder="Select department"
-						onChange={ e => set_category(e.target.value) }
-					>
-						{ departments.map( d => ( <option key={ d.key } value={ d.key }>{ d.name }</option> ) ) }
-					</Select>
+			<Flex align="center">
+				<div style={{marginTop: 20, marginBottom: 10}}>
+					<HStack width={400} style={{margin: '0 auto'}}>
+						<Select
+							placeholder="Select department"
+							onChange={ e => set_category( e.target.value ) }
+						>
+							{ departments.map( d => ( <option key={ d.key } value={ d.key }>{ d.name }</option> ) ) }
+						</Select>
 
-					<Button onClick={ () => addRect( canvas ) }>Add Area</Button>
-
-				</HStack>
-				<canvas style={ { marginTop: 12 } } id="canvas"/>
-			</main>
+						<Button onClick={ () => addRect( canvas ) } disabled={!category}>
+							Add Area
+						</Button>
+					</HStack>
+					<div id="canvas-wrap" style={ { width: "100vw", height: "calc( 100vh - 70px )" } }>
+						<canvas style={ { marginTop: 12 } } id="canvas"/>
+					</div>
+				</div>
+			</Flex>
 
 			<Modal isOpen={ isOpen } onClose={ () => set_isOpen( false ) }>
 				<ModalOverlay/>
