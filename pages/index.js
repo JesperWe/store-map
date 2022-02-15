@@ -18,33 +18,13 @@ import {
 
 let canvas
 
-const departments = [
-	{
-		key: 'fotball',
-		name: 'Fotball',
-		color: '#ff6400'
-	},
-	{
-		key: 'bikes',
-		name: 'Bikes',
-		color: '#ffca00'
-	},
-	{
-		key: 'weapons',
-		name: 'Weapons',
-		color: '#cbfa00'
-	},
-	{
-		key: 'pickup',
-		name: 'Pickup@Store',
-		color: '#02fa7d'
-	},
-	{
-		key: 'cust-serv',
-		name: 'Customer Service',
-		color: '#02c6fa'
-	},
-]
+const colors = [ "#aa8f66", "#ed9b40", "#ffeedb", "#61c9a8", "#ba3b46", "#daddd8", "#c7d59f", "#b7ce63", "#8fb339", "#4b5842", "#ffa69e", "#ff7e6b", "#8c5e58", "#a9f0d1", "#fff7f8", "#a49e8d", "#504136", "#689689", "#b2e6d4", "#83e8ba", "#c5afa4", "#cc7e85", "#cf4d6f", "#a36d90", "#76818e" ]
+const departmentNames = [ 'Fotboll', 'Cyklar', 'Vapen', 'Pickup@Store', 'Damkläder', 'Herrkläder', 'Barnkläder', 'Ishockey', 'Tält', 'Ryggsäckar', 'Kundtjänst' ]
+const departments = departmentNames.sort( ( a, b ) => a.localeCompare( b ) ).map( ( name, i ) => ( {
+	key: 'd-' + i,
+	name,
+	color: colors[ i ]
+} ) )
 
 export default function Home() {
 
@@ -58,7 +38,7 @@ export default function Home() {
 		const rect = new fabric.Rect( {
 			height: 280,
 			width: 200,
-			opacity: 0.5,
+			opacity: 0.7,
 			fill: dept.color
 		} )
 		const text = new fabric.Text( dept.name, {
